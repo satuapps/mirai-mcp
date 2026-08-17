@@ -1,0 +1,63 @@
+{
+  "name": "@satuapps/mirai-mcp",
+  "version": "0.1.0",
+  "description": "Mirai MCP server: affordable model calls, catalog pricing, and account status for AI agents",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "mirai-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "mcpb": "bash scripts/build-mcpb.sh",
+    "prepublishOnly": "npm run build",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "mirai",
+    "mcp",
+    "model-context-protocol",
+    "chat-completions",
+    "ai-agent",
+    "openclaw",
+    "hermes"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": {
+    "name": "satuapps",
+    "email": "hi@satuapps.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/satuapps/mirai-mcp.git"
+  },
+  "homepage": "https://satuapps.com",
+  "bugs": {
+    "url": "https://github.com/satuapps/mirai-mcp/issues"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.1",
+    "tsx": "^4.23.12",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  }
+}

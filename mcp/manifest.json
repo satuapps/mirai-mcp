@@ -1,0 +1,79 @@
+{
+  "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/mcpb/main/schemas/mcpb-manifest-v0.3.schema.json",
+  "manifest_version": "0.3",
+  "name": "mirai-mcp",
+  "display_name": "Mirai MCP",
+  "version": "0.1.0",
+  "description": "Affordable Mirai chat completions for AI agents: call models, read live pricing, check quota.",
+  "long_description": "Mirai is a cheap model backend for Hermes, OpenClaw, and other agent harnesses. This stdio MCP server wraps the public Mirai HTTP API.\n\nWithout MIRAI_API_KEY, guest daily quota on /publik/chat may work until it runs out. With a key, calls use the OpenAI compatible /v1/chat/completions endpoint.\n\nCreate a free key via https://satuapps.com/docs. The process starts and advertises tools even when MIRAI_API_KEY is unset.",
+  "author": {
+    "name": "Mirai by satuapps",
+    "url": "https://satuapps.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/satuapps/mirai-mcp.git"
+  },
+  "homepage": "https://satuapps.com",
+  "documentation": "https://satuapps.com/docs",
+  "support": "https://satuapps.com",
+  "license": "MIT",
+  "keywords": [
+    "mirai",
+    "mcp",
+    "chat-completions",
+    "ai-agent",
+    "openclaw",
+    "hermes"
+  ],
+  "privacy_policies": [
+    "https://satuapps.com/privacy"
+  ],
+  "server": {
+    "type": "node",
+    "entry_point": "server/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/server/index.js"],
+      "env": {
+        "MIRAI_API_KEY": "${user_config.MIRAI_API_KEY}",
+        "MIRAI_BASE_URL": "${user_config.MIRAI_BASE_URL}"
+      }
+    }
+  },
+  "user_config": {
+    "MIRAI_API_KEY": {
+      "type": "string",
+      "title": "MIRAI_API_KEY",
+      "description": "Optional for discovery. Required for paid API calls after guest quota. Create a free key via satuapps.com/docs. Never commit the value.",
+      "sensitive": true,
+      "required": false
+    },
+    "MIRAI_BASE_URL": {
+      "type": "string",
+      "title": "MIRAI_BASE_URL",
+      "description": "Optional. API base URL. Leave empty to use Mirai production.",
+      "required": false
+    }
+  },
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  },
+  "tools": [
+    {
+      "name": "call_model",
+      "description": "Send chat messages to Mirai and return the assistant reply."
+    },
+    {
+      "name": "list_models",
+      "description": "List models with live per million token pricing from GET /harga."
+    },
+    {
+      "name": "account_status",
+      "description": "Guest quota or paid balance and subscription windows."
+    }
+  ]
+}
