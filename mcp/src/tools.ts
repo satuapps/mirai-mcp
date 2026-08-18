@@ -44,8 +44,15 @@ export function registerTools(server: McpServer, client: MiraiClient): void {
     {
       title: "Call Mirai model",
       description:
-        "Send a chat to Mirai and return the assistant reply. Works without MIRAI_API_KEY " +
-        "while daily guest quota remains. With a key, uses the OpenAI compatible API.",
+        "Send a chat completion to Mirai and return the assistant text. Use this only to generate a reply. " +
+        "Do not use this to look up prices or remaining quota; use list_models or account_status. " +
+        "Works without MIRAI_API_KEY while daily guest quota remains. With a key, uses the paid chat completions API.",
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: true,
+      },
       inputSchema: {
         messages: z
           .array(
@@ -78,7 +85,14 @@ export function registerTools(server: McpServer, client: MiraiClient): void {
     {
       title: "Model catalog and pricing",
       description:
-        "List Mirai models with public per million token pricing from the live catalog endpoint.",
+        "Read the live Mirai catalog and public USD price per million tokens. Use this before choosing a model. " +
+        "Does not send a chat. No API key required.",
+      annotations: {
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
       inputSchema: {},
     },
     async () => {
@@ -96,7 +110,14 @@ export function registerTools(server: McpServer, client: MiraiClient): void {
     {
       title: "Balance and quota",
       description:
-        "Show remaining guest quota without a key, or plan balance and subscription windows with MIRAI_API_KEY.",
+        "Read remaining guest quota when MIRAI_API_KEY is unset, or paid balance and subscription windows when a key is set. " +
+        "Does not send a chat. Use list_models for prices.",
+      annotations: {
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
       inputSchema: {},
     },
     async () => {
